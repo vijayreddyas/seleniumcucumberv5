@@ -1,6 +1,7 @@
 package runner;
 
 import base.TestBase;
+import helpers.LoadProperties;
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 import org.testng.annotations.BeforeClass;
@@ -24,7 +25,13 @@ public class RunCucumberTest extends AbstractTestNGCucumberTests {
 
     @BeforeClass
     public void setup() throws IOException {
-        TestBase tb = new TestBase();
-        tb.startGrid("localhost", "4444");
+        if (LoadProperties.getProperty("gridBasedExecution").toLowerCase().
+                equalsIgnoreCase("true")) {
+            System.out.println("$$$$$$$$$$$$$$$$$$$  VERIFYING THE GRID STATUS AS THE EXECUTIONS ARE GRID BASED  $$$$$$$$$$$$$$$$$$$$$$");
+            TestBase tb = new TestBase();
+            tb.startGrid("localhost", "4444");
+        }else{
+            System.out.println("$$$$$$$$$$$$$$$$$$$  SKIPPING THE GRID STATUS VERIFICATION AS THE EXECUTIONS ARE NOT GRID BASED  $$$$$$$$$$$$$$$$$$$$$$");
+        }
     }
 }
