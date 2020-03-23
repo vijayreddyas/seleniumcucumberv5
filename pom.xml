@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>qacucumberv5</groupId>
-    <artifactId>qacucumberv5</artifactId>
+    <groupId>qacucumber</groupId>
+    <artifactId>qacucumber</artifactId>
     <version>1.5.1</version>
 
     <properties>
@@ -13,11 +13,11 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.failsafe.plugin.version>3.0.0-M3</maven.failsafe.plugin.version>
         <maven.build.helper.plugin.version>3.0.0</maven.build.helper.plugin.version>
-        <cucumber.version>5.5.0</cucumber.version>
+        <cucumber.version>4.2.6</cucumber.version>
         <maven.compiler.plugin.version>3.7.0</maven.compiler.plugin.version>
 
-        <generated.runner.directory>${project.build.directory}/runner/runners</generated.runner.directory>
-        <generated.feature.directory>${project.build.directory}/runner/features</generated.feature.directory>
+        <generated.runner.directory>${project.build.directory}/parallel/runners</generated.runner.directory>
+        <generated.feature.directory>${project.build.directory}/parallel/features</generated.feature.directory>
     </properties>
 
     <dependencies>
@@ -60,49 +60,94 @@
             <version>22.0</version>
         </dependency>
         <dependency>
+            <groupId>net.masterthought</groupId>
+            <artifactId>cucumber-reporting</artifactId>
+            <version>4.7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>gherkin</artifactId>
+            <version>2.12.2</version>
+        </dependency>
+        <dependency>
             <groupId>com.trivago.rta</groupId>
             <artifactId>cluecumber-report-plugin</artifactId>
             <version>2.1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>json-path</artifactId>
-            <version>4.3.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>7.1.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-testng</artifactId>
-            <version>${cucumber.version}</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
+                <groupId>com.trivago.rta</groupId>
+                <artifactId>cucable-plugin</artifactId>
+                <version>${project.version}</version>
+                <executions>
+                    <execution>
+                        <id>generate-test-resources</id>
+                        <phase>generate-test-resources</phase>
+                        <goals>
+                            <goal>parallel</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
-                    <encoding>UTF-8</encoding>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <!-- This can be either a Java class file or a text based template -->
+                    <sourceRunnerTemplateFile>src/test/java/runnertemplate/CucableJavaTemplate.java
+                    </sourceRunnerTemplateFile>
+
+                    <!-- process all features in the given directory -->
+                    <sourceFeatures>src/test/resources/features</sourceFeatures>
+
+                    <generatedFeatureDirectory>${generated.feature.directory}</generatedFeatureDirectory>
+                    <generatedRunnerDirectory>${generated.runner.directory}</generatedRunnerDirectory>
+
                 </configuration>
             </plugin>
-
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>${maven.build.helper.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>add-test-source</id>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>add-test-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${generated.runner.directory}</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.0</version>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${maven.failsafe.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>Run parallel tests</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>integration-test</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
-                    <parallel>methods</parallel>
-                    <threadCount>4</threadCount>
+                    <forkCount>${threadCount}</forkCount>
+                    <testFailureIgnore>true</testFailureIgnore>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -119,7 +164,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <sourceJsonReportDirectory>${project.build.directory}/cucumber-report.json</sourceJsonReportDirectory>
+                    <sourceJsonReportDirectory>${project.build.directory}/cucumber-report</sourceJsonReportDirectory>
                     <generatedHtmlReportDirectory>${project.build.directory}/test-report</generatedHtmlReportDirectory>
                     <expandBeforeAfterHooks>true</expandBeforeAfterHooks>
                     <expandStepHooks>true</expandStepHooks>
