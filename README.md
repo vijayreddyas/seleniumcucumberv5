@@ -50,5 +50,10 @@ Framework can be used to automate the UI scenarios using Selenium with BDD appro
     
     These tags should be defined on top of features or it can be defined on scenario as well.
     
+## **_`Roadmap`_**
+*   Implementation of Docker containerization for execution of the scripts
+*   Integration of Excel, Yaml, Json files for capturing the test data during run time.
+*   Integration of random test data generation using JFairy Library
+    
 
 
