@@ -16,6 +16,7 @@ Framework can be used to automate the UI scenarios using Selenium with BDD appro
 
 #### **_`TechStack`_**
 *   Java 1.8
+*   apache-maven-3.6.3
 *   TestNG
 *   Cucumber Version 5.5.0
 *   Selenium 3.14
