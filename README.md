@@ -20,7 +20,6 @@ Framework can be used to automate the UI scenarios using Selenium with BDD appro
 *   TestNG
 *   Cucumber Version 5.5.0
 *   Selenium 3.14
-*   apache maven
 *   Reporting : Cluecumber third party report
 *   Editor: Intellij
 
