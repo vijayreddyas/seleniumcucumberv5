@@ -233,7 +233,7 @@ public class TestBase extends Logfile {
      */
     public void startGrid(String host, String port) throws IOException {
         if (checkGridStatus(host, port).equalsIgnoreCase("true")) {
-            System.out.println("SELENIUM GRID WITH GIVEN HOST AND PORT IS ALREADY UP & RUNNING");
+            System.out.println("@@@@@@@@@@@@@@@@@  SELENIUM GRID WITH GIVEN HOST AND PORT IS ALREADY UP & RUNNING  @@@@@@@@@@@@@@@@@");
         } else {
             File dir = new File("gridconfiguration");
             ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/C",
