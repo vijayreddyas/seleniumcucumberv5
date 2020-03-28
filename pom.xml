@@ -11,7 +11,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.failsafe.plugin.version>3.0.0-M3</maven.failsafe.plugin.version>
         <maven.build.helper.plugin.version>3.0.0</maven.build.helper.plugin.version>
         <cucumber.version>5.5.0</cucumber.version>
         <maven.compiler.plugin.version>3.7.0</maven.compiler.plugin.version>
@@ -103,6 +102,7 @@
                 <configuration>
                     <parallel>methods</parallel>
                     <threadCount>${threadCount}</threadCount>
+                    <testFailureIgnore>true</testFailureIgnore>
                 </configuration>
             </plugin>
             <plugin>
