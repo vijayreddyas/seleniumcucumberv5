@@ -5,6 +5,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -17,7 +18,7 @@ public class SeleniumUtils extends TestBase {
     private static final String error2 = "//*[contains(@class,'red')]";
     private static boolean highlight = Boolean.valueOf(LoadProperties.getProperty("highlight"));
     private boolean visibilityCheck = Boolean.valueOf(LoadProperties.getProperty("visibilityCheck"));
-    private String userDir=System.getProperty("user.dir");
+    private String userDir = System.getProperty("user.dir");
     //private String snapshotDir = userDir + userDir.substring(userDir.lastIndexOf('\\')+1, userDir.length())+"\\screenshots";
     private String snapshotDir = userDir + "\\screenshots";
     private boolean prevVisibilityCheck = true;
@@ -53,7 +54,7 @@ public class SeleniumUtils extends TestBase {
     }
 
     /**
-     * - Clicks on element specified by locator. - Implicitly waits for the
+     * Clicks on element specified by locator. - Implicitly waits for the
      * element to be present before click, so no need to explicitly wait for
      * element using AjaxCondition - Logs to report on successful click - Logs
      * to report if element not present - Waits for 5 secs if element just
@@ -84,7 +85,7 @@ public class SeleniumUtils extends TestBase {
                     return true;
                 } catch (Exception e1) {
                     e1.printStackTrace();
-                    fail("Unable to Click Element :" + getLocatorName(locator) + " Error:" + (e.getMessage().length()>100?e.getMessage().substring(0,99)+"...":e.getMessage()));
+                    fail("Unable to Click Element :" + getLocatorName(locator) + " Error:" + (e.getMessage().length() > 100 ? e.getMessage().substring(0, 99) + "..." : e.getMessage()));
                 }
             }
             return true;
@@ -94,46 +95,45 @@ public class SeleniumUtils extends TestBase {
     }
 
     /**
-     *
      * @param locator
      * @return
      */
     public WebElement findElementM(String locator) {
         WebElement element = null;
         if (locator.startsWith("/") || locator.startsWith("xpath=") || locator.contains("//") || locator.startsWith("(/")) {
-            info("Identifying element with xpath :: "+locator.replace("xpath=", ""));
+            info("Identifying element with xpath :: " + locator.replace("xpath=", ""));
             element = searchElement(By.xpath(locator.replace("xpath=", "")));
             return element;
         } else if (locator.startsWith("link=")) {
-            info("Identifying element with link text :: "+locator.replace("link=", ""));
+            info("Identifying element with link text :: " + locator.replace("link=", ""));
             element = searchElement(By.linkText(locator.replace("link=", "")));
             return element;
         } else if (locator.startsWith("linkp=")) {
-            info("Identifying element with partial link text :: "+locator.replace("linkp=", ""));
+            info("Identifying element with partial link text :: " + locator.replace("linkp=", ""));
             element = searchElement(By.partialLinkText(locator.replace("linkp=", "")));
             return element;
         } else if (locator.startsWith("id=")) {
-            info("Identifying element with id :: "+locator.replace("id=", ""));
+            info("Identifying element with id :: " + locator.replace("id=", ""));
             element = searchElement(By.id(locator.replace("id=", "")));
             return element;
         } else if (locator.startsWith("name=")) {
-            info("Identifying element with name :: "+locator.replace("name=", ""));
+            info("Identifying element with name :: " + locator.replace("name=", ""));
             element = searchElement(By.name(locator.replace("name=", "")));
             return element;
         } else if (locator.startsWith("tag=")) {
-            info("Identifying element with tag :: "+locator.replace("tag=", ""));
+            info("Identifying element with tag :: " + locator.replace("tag=", ""));
             element = searchElement(By.tagName(locator.replace("tag=", "")));
             return element;
         } else if (locator.startsWith("css=")) {
-            info("Identifying element with css selector :: "+locator.replace("css=", ""));
+            info("Identifying element with css selector :: " + locator.replace("css=", ""));
             element = searchElement(By.cssSelector(locator.replace("css=", "")));
             return element;
-        }else if(locator.startsWith("class=")) {
-            info("Identifying element with class :: "+locator.replace("class=", ""));
+        } else if (locator.startsWith("class=")) {
+            info("Identifying element with class :: " + locator.replace("class=", ""));
             element = searchElement(By.className(locator.replace("class=", "")));
             return element;
         } else {
-            info("Identifying element with  :: "+locator);
+            info("Identifying element with  :: " + locator);
             element = searchElement(By.id(locator));
             if (element == null) {
                 element = searchElement(By.name(locator));
@@ -212,7 +212,6 @@ public class SeleniumUtils extends TestBase {
     }
 
     /**
-     *
      * @param str
      * @return
      */
@@ -225,7 +224,7 @@ public class SeleniumUtils extends TestBase {
                 if (Character.isUpperCase(c) && !Character.isUpperCase(str.charAt(i - 1))) {
                     newStr.add(' ');
                     newStr.add(c);
-                } else if (i < str.length()-1 && Character.isUpperCase(c) && Character.isLowerCase(str.charAt(i + 1))) {
+                } else if (i < str.length() - 1 && Character.isUpperCase(c) && Character.isLowerCase(str.charAt(i + 1))) {
                     newStr.add(' ');
                     newStr.add(c);
                 } else if (str.charAt(i) == '_') {
@@ -242,7 +241,6 @@ public class SeleniumUtils extends TestBase {
     }
 
     /**
-     *
      * @return
      */
     private String getError() {
@@ -258,7 +256,6 @@ public class SeleniumUtils extends TestBase {
     }
 
     /**
-     *
      * @param driver
      */
     public void waitForLoad(WebDriver driver) {
@@ -267,7 +264,6 @@ public class SeleniumUtils extends TestBase {
     }
 
     /**
-     *
      * @param by
      * @return
      */
@@ -277,7 +273,7 @@ public class SeleniumUtils extends TestBase {
         List<WebElement> elements;
         try {
             elements = getDriver().findElements(by);
-            for (Iterator<WebElement> iterator = elements.iterator(); iterator.hasNext();) {
+            for (Iterator<WebElement> iterator = elements.iterator(); iterator.hasNext(); ) {
                 element = (WebElement) iterator.next();
                 try {
                     if (element.isDisplayed()) {
@@ -313,7 +309,6 @@ public class SeleniumUtils extends TestBase {
     }
 
     /**
-     *
      * @return
      */
     public String acceptAlert() {
@@ -321,12 +316,11 @@ public class SeleniumUtils extends TestBase {
     }
 
     /**
-     *
      * @param timeout
      * @return
      */
     public String acceptAlert(int timeout) {
-        for (int seconds = 0;; seconds++) {
+        for (int seconds = 0; ; seconds++) {
             if (seconds >= timeout) {
                 return "";
             } else {
@@ -389,19 +383,19 @@ public class SeleniumUtils extends TestBase {
             try {
                 element.clear();
                 element.sendKeys(text);
-                wait(Integer.parseInt(LoadProperties.getProperty("typeWait","0")));
+                wait(Integer.parseInt(LoadProperties.getProperty("typeWait", "0")));
                 info("Type \"" + text + "\" in \"" + getLocatorName(locator) + "\"");
             } catch (Exception e) {
                 e.printStackTrace();
                 try {
                     element.sendKeys(text);
-                    wait(Integer.parseInt(LoadProperties.getProperty("typeWait","0")));
+                    wait(Integer.parseInt(LoadProperties.getProperty("typeWait", "0")));
                     info("Type Keys  \"" + text + "\" in \"" + getLocatorName(locator) + "\"");
                 } catch (Exception e1) {
                     e1.printStackTrace();
                     try {
                         setValue(element, text);
-                        wait(Integer.parseInt(LoadProperties.getProperty("typeWait","0")));
+                        wait(Integer.parseInt(LoadProperties.getProperty("typeWait", "0")));
                         info("Set Value \"" + text + "\" in \"" + getLocatorName(locator) + "\"");
                     } catch (Exception e2) {
                         e2.printStackTrace();
@@ -414,7 +408,6 @@ public class SeleniumUtils extends TestBase {
     }
 
     /**
-     *
      * @param element
      * @param text
      */
@@ -427,7 +420,6 @@ public class SeleniumUtils extends TestBase {
     }
 
     /**
-     *
      * @param locator
      * @param text
      */
@@ -494,31 +486,25 @@ public class SeleniumUtils extends TestBase {
      * waits for 5 seconds to allow page load completely and searches the
      * element again to avoid stale element exception.
      *
-     * @param locator
-     *            - element locator
-     * @param timeout
-     *            - seconds to wait for element
-     * @param soft
-     *            - if true, log fail message in report and soft fail Script(At
-     *            End of Execution); if false - halts further script execution
-     *            if fail with fail log
-     * @param report
-     *            - log pass/fail result to report
-     * @param present
-     *            - if true, check for element presence; if false - check for
-     *            element absence
-     * @param visibilityCheck
-     *            - if true, check for isDisplayed(). Set this false when
-     *            sometimes element is visually present but isDisplayed()
-     *            returns false
+     * @param locator         - element locator
+     * @param timeout         - seconds to wait for element
+     * @param soft            - if true, log fail message in report and soft fail Script(At
+     *                        End of Execution); if false - halts further script execution
+     *                        if fail with fail log
+     * @param report          - log pass/fail result to report
+     * @param present         - if true, check for element presence; if false - check for
+     *                        element absence
+     * @param visibilityCheck - if true, check for isDisplayed(). Set this false when
+     *                        sometimes element is visually present but isDisplayed()
+     *                        returns false
      * @return WebElement - returns found WebElement if found, else returns null
      */
     public WebElement waitForElement(String locator, int timeout, boolean soft, boolean report, boolean present, boolean visibilityCheck) {
         WebElement element = null;
         boolean visibilityCheckPrev = this.visibilityCheck;
         // setVisibilityCheck(visibilityCheck);
-        wait(Integer.parseInt(LoadProperties.getProperty("stepWait","0")));
-        for (int seconds = 0;; seconds++) {
+        wait(Integer.parseInt(LoadProperties.getProperty("stepWait", "0")));
+        for (int seconds = 0; ; seconds++) {
             if (seconds >= timeout) {
                 if (!present) {
                     if (showVerifications && report) {
@@ -591,7 +577,6 @@ public class SeleniumUtils extends TestBase {
     }
 
     /**
-     *
      * @param locator
      * @return
      */
@@ -600,7 +585,6 @@ public class SeleniumUtils extends TestBase {
     }
 
     /**
-     *
      * @param locator
      * @param timeout
      * @return
@@ -614,7 +598,6 @@ public class SeleniumUtils extends TestBase {
     }
 
     /**
-     *
      * @param expectedTitle
      * @return
      */
@@ -623,7 +606,6 @@ public class SeleniumUtils extends TestBase {
     }
 
     /**
-     *
      * @param expectedTitle
      * @param timeout
      * @param tName
@@ -631,11 +613,12 @@ public class SeleniumUtils extends TestBase {
      */
     public boolean waitForTitle(String expectedTitle, int timeout, String tName) {
         String actualTitle = "";
-        for (int seconds = 0;; seconds++) {
+        for (int seconds = 0; ; seconds++) {
             actualTitle = getDriver().getTitle().trim();
             if (seconds >= timeout) {
                 info("Expected Value : " + expectedTitle + "\n" + "Actual Value : " + actualTitle + "  <br> " + tName + " :: FAIL");
-                error(tName + "::::" + "FAILED");                return false;
+                error(tName + "::::" + "FAILED");
+                return false;
             }
             if (actualTitle.contains(expectedTitle.trim())) {
                 System.setProperty("org.uncommons.reportng.escape-output", "false");
@@ -645,5 +628,36 @@ public class SeleniumUtils extends TestBase {
             }
             wait(1000);
         }
+    }
+
+    /**
+     * Switch to specific frame
+     *
+     * @param locator
+     */
+    public void switchToFrame(String locator) {
+        WebElement element = waitForElement(locator);
+        if (element != null) {
+            try {
+                getDriver().switchTo().frame(element);
+            } catch (Exception e) {
+                info(e.getMessage());
+                fail("Exception while switching to frame \"" + getLocatorName(locator) + "\"");
+            }
+            info("Switched to frame \"" + getLocatorName(locator) + "\"");
+        }
+    }
+
+    /**
+     * Function to Switch to default content
+     */
+    public void switchToDefaultFrame() {
+        try {
+            getDriver().switchTo().defaultContent();
+        } catch (Exception e) {
+            info(e.getMessage());
+            fail("Exception while switching to defaultContent");
+        }
+        info("Switched to default frame (defaultContent)");
     }
 }

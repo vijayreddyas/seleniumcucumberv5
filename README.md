@@ -20,7 +20,6 @@ Framework can be used to automate the UI scenarios using Selenium with BDD appro
 *   TestNG
 *   Cucumber Version 5.5.0
 *   Selenium 3.14
-*   apache maven
 *   Reporting : Cluecumber third party report
 *   Editor: Intellij
 
@@ -57,6 +56,7 @@ Framework can be used to automate the UI scenarios using Selenium with BDD appro
 *   Integration of Excel, Yaml, Json files for capturing the test data during run time.
 *   Integration of random test data generation using JFairy Library
 *   Integration of static code analysis tools with maven
+*   Database connection helpers
     
 
 
